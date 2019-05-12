@@ -61,7 +61,9 @@ export default class PlanScreen extends React.Component {
                   style={styles.btn}
                   onPress={() => this.props.navigation.navigate('Mission', {
                     name: content.name,
-                    mission: content.mission
+                    mission1: content.mission1,
+                    mission2: content.mission2,
+                    mission3: content.mission3,
                   })} >
                   <Text style={styles.btntext}>미션수행</Text>
                 </TouchableOpacity>
@@ -83,7 +85,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ECF3F6'
   },
   header: {
-    flex: 0.2,
     height: 100,
     width: "100%",
     flexDirection: 'column',

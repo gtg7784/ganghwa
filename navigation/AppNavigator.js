@@ -6,6 +6,8 @@ import PermissionScreen from '../screens/PermissionScreen'
 import LoginScreen from '../screens/WelcomeScreen'
 import InfoScreen from '../screens/InfoScreen'
 import MissionScreen from '../screens/MissionScreen'
+import ReportScreen from '../screens/ReportScreen'
+import WelcomeScreen from '../screens/WelcomeScreen'
 
 export default createAppContainer(createSwitchNavigator({
   // You could add another route here for authentication.
@@ -14,5 +16,7 @@ export default createAppContainer(createSwitchNavigator({
   Login: LoginScreen,
   Main: MainTabNavigator,
   Info: InfoScreen,
-  Mission: MissionScreen
+  Mission: MissionScreen,
+  Report: ReportScreen,
+  Welcome: WelcomeScreen
 }));

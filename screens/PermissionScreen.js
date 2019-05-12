@@ -1,109 +1,35 @@
 import React from 'react';
 import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
-
-import Permissions from 'react-native-permissions'
  
 export default class SettingsScreen extends React.Component {
-  // Check the status of a single permission
-  // componentDidMount() {
-  //   Permissions.checkMultiple(['location', 'camera', 'photo']).then(response => {
-  //     // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-  //     this.setState({
-  //       locationPermission: response.location,
-  //       cameraPermission: response.camera,
-  //       photoPermission: response.photo,
-  //     })
-  //   })
-  // }
- 
-  // // Request permission to access photos
-  // _requestPermission = () => {
-  //   Permissions.request("location")
-  //       .then(locationResponse => {
-  //           console.log("location permission: " + locationResponse);
-  //           return (Permissions.request("camera"));
-  //       }).then(cameraResponse => {
-  //           console.log("camera permission: " + cameraResponse);
-  //           return (Permissions.request("photo"));
-  //       }).then(photoResponse => {
-  //           console.log("photo permission: " + photoResponse);
-  //       });
-  //   }
- 
-  // // Check the status of multiple permissions
-  // _checkPermissions = () => {
-  //   Permissions.checkMultiple(['location', 'camera', 'photo']).then(response => {
-  //     //response is an object mapping type to permission
-  //     this.setState({
-  //       locationPermission: response.location,
-  //       cameraPermission: response.camera,
-  //       photoPermission: response.photo,
-  //     })
-  //   })
-  // }
- 
-  // // This is a common pattern when asking for permissions.
-  // // iOS only gives you once chance to show the permission dialog,
-  // // after which the user needs to manually enable them from settings.
-  // // The idea here is to explain why we need access and determine if
-  // // the user will say no, so that we don't blow our one chance.
-  // // If the user already denied access, we can ask them to enable it from settings.
-  // _alertForPhotosPermission() {
-  //   Alert.alert(
-  //     'Can we access your photos?',
-  //     'We need access so you can set your profile pic!',
-  //     [
-  //       {
-  //         text: 'No way',
-  //         onPress: () => console.log('Permission denied'),
-  //         style: 'cancel',
-  //       },
-  //       this.state.photoPermission == 'undetermined'
-  //         ? { text: 'OK', onPress: this._requestPermission }
-  //         : { text: 'Open Settings', onPress: Permissions.openSettings },
-  //     ],
-  //   )
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: null
+    }
+  }
 
-  // _alertForLocationPermission() {
-  //   Alert.alert(
-  //     'Can we access your Location?',
-  //     'We need access so we can check your location!',
-  //     [
-  //       {
-  //         text: 'No way',
-  //         onPress: () => console.log('Permission denied'),
-  //         style: 'cancel',
-  //       },
-  //       this.state.locationPermission == 'undetermined'
-  //         ? { text: 'OK', onPress: this._requestPermission }
-  //         : { text: 'Open Settings', onPress: Permissions.openSettings },
-  //     ],
-  //   )
-  // }
-
-  // _alertForCameraPermission() {
-  //   Alert.alert(
-  //     'Can we access your Camera?',
-  //     'We need access so you can take a pic for report!',
-  //     [
-  //       {
-  //         text: 'No way',
-  //         onPress: () => console.log('Permission denied'),
-  //         style: 'cancel',
-  //       },
-  //       this.state.cameraPermission == 'undetermined'
-  //         ? { text: 'OK', onPress: this._requestPermission }
-  //         : { text: 'Open Settings', onPress: Permissions.openSettings },
-  //     ],
-  //   )
-  // }
+  _retrieveData = async () => {
+    try {
+      const nameValue = await AsyncStorage.getItem("name");
+      if (nameValue !== null) {
+        this.setState({
+          name: JSON.parse(nameValue)
+        })
+      }
+    } catch (error) {}
+  };
 
   static navigationOptions = {
     title: null
   };
+
+  componentDidMount() {
+    this._retrieveData().done();
+  }
   
   render() {
+    this._retrieveData()
     return(
       <View style={styles.container}>
         <Image
@@ -158,7 +84,7 @@ export default class SettingsScreen extends React.Component {
         <TouchableOpacity
           style={styles.button}
           underlaycolor='#EB4E3D'
-          onPress={() => this.props.navigation.navigate('Login')}>
+          onPress={() => {(this.state.name  !== null) ? this.props.navigation.navigate('Main') : this.props.navigation.navigate('Login') }}>
             <Text style={{color:"#fff"}}>
               내용 확인했어요
             </Text>
@@ -172,8 +98,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
   button: {
     width: "100%",

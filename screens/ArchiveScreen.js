@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity } from 'react-native';
 
 const list = [
   {
@@ -34,7 +34,11 @@ export default class ArchiveScreen extends React.Component {
       <View style={styles.container}>
         {list.map(((item, key) => {
           return (
-            <View style={styles.row} key={key}>
+            <TouchableOpacity style={styles.row} key={key}
+            onPress={() => this.props.navigation.navigate('Report', {
+              name: 'ㅁㄴㅇㄹ',
+              mission: 'ㅁㄴㅇㄹ'
+            })} >
               <View style={styles.imgWrap}>
                 <Image
                   style={{"width": 45, "height": 53}}
@@ -45,7 +49,7 @@ export default class ArchiveScreen extends React.Component {
                 <Text style={styles.h1}>{item.title}</Text>
                 <Text style={styles.span}>{item.date}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           )
         }))}
       </View>

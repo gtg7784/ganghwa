@@ -1,7 +1,7 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, View, StyleSheet, Image, Text, TouchableHighlight } from 'react-native';
+import { SafeAreaView, ScrollView, View, StyleSheet, Image, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 
-export default class MissionScreen extends React.Component {
+export default class MissionDetailScreen extends React.Component {
 
   static navigationOptions = {
     title: '지도'
@@ -11,12 +11,14 @@ export default class MissionScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
+    const title = navigation.getParam('title');
+    const description = navigation.getParam('description');
 
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <View style={styles.textwrap}>
-            <Text style={styles.headerText}>미션수행</Text>
+            <Text style={styles.headerText}>지도</Text>
           </View>
           <TouchableHighlight
             style={styles.cancelWrap}
@@ -27,18 +29,8 @@ export default class MissionScreen extends React.Component {
           </TouchableHighlight>
         </View>
         <ScrollView>
-          <View style={styles.title}>
-            <Image
-              style={styles.img}
-              source={require('../assets/images/info.png')} />
-            
-            <Text style={styles.h1}>{navigation.getParam('name')}</Text>
-          </View>
-
-          <View>
-            <Text style={styles.h2}>Mission1</Text>
-            <Text style={styles.question}>{navigation.getParam('mission1')}</Text>
-          </View>
+          <Text style={styles.h1}>{title}</Text>
+          <Text style={styles.content}>{description}</Text>
         </ScrollView>
       </SafeAreaView>
     );
@@ -50,12 +42,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#ECF3F6',
   },
   img: {
-    width: 86,
-    height: 86,
-    margin: 20
+    width: "100%",
+    minHeight: 200
   },
   cancelWrap: {
     position: 'absolute',
@@ -67,6 +58,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingVertical: 14.5,
+    // width: '100%',
     flexDirection: 'row',
     justifyContent: 'center'
   },
@@ -79,29 +71,26 @@ const styles = StyleSheet.create({
     color: '#44494D',
     fontWeight: '400'
   },
-  title: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
   h1: {
     fontSize: 22,
     color: '#44494D',
-    fontWeight: '500'
+    marginLeft: 32,
+    marginTop: 82,
   },
-  h2: {
-    backgroundColor: "#FF5026",
-    fontSize: 17,
-    paddingHorizontal: 33,
-    paddingTop: 20,
-    width: 144,
-    color: "#fff",
-    fontWeight: "600"
+  content: {
+    fontSize: 15,
+    color: '#44494D',
+    marginTop: 33,
+    marginHorizontal: 34
   },
-  question: {
-    marginLeft: 33,
-    marginTop: 26,
-    color: "#44494D",
-    fontWeight: "500",
-    
-  }
+  button: {
+    width: "100%",
+    flexDirection: 'row',
+    backgroundColor: '#EB4E3D',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: 60,
+    position: 'absolute',
+    bottom:0
+  },
 });

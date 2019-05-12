@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, AsyncStorage } from 'react-native';
 
 
 export default class SettingsScreen extends React.Component {
@@ -10,6 +10,10 @@ export default class SettingsScreen extends React.Component {
       latitude: 0,
       longitude: 0,
       error: null,
+      name: '',
+      school: '',
+      email: '',
+      no: ''
     };
   }
 
@@ -27,11 +31,30 @@ export default class SettingsScreen extends React.Component {
     );
   }
 
+  _retrieveData = async () => {
+    try {
+      const nameValue = await AsyncStorage.getItem("name");
+      const schoolValue = await AsyncStorage.getItem("school")
+      const noValue = await AsyncStorage.getItem("no")
+      const emailValue = await AsyncStorage.getItem("email")
+      this.setState({
+        name: JSON.parse(nameValue),
+        school: JSON.parse(schoolValue),
+        email: JSON.parse(emailValue),
+        no: JSON.parse(noValue)
+      })
+      
+    } catch (error) {
+      this.props.navigation.navigate('Welcome');
+    }
+  };
+
   static navigationOptions = {
     title: '프로필'
   };
   
   render() {
+    this._retrieveData()
     return(
       <View style={styles.container}>
         <View style={styles.tourinfo}>
@@ -51,24 +74,28 @@ export default class SettingsScreen extends React.Component {
         <View style={styles.info}>
           <View style={styles.row}>
             <Text style={styles.label}>이름</Text>
-            <Text style={styles.span}>고태건</Text>
+            <Text style={styles.span}>{this.state.name}</Text>
           </View>
-          <View style={styles.row}>
+          {/* <View style={styles.row}>
             <Text style={styles.label}>성별</Text>
             <Text style={styles.span}>남자</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>email</Text>
-            <Text style={styles.span}>colada@launchrs.io</Text>
-          </View>
+          </View> */}
           <View style={styles.row}>
             <Text style={styles.label}>학교</Text>
-            <Text style={styles.span}>선린인터넷고등학교</Text>
+            <Text style={styles.span}>{this.state.school}</Text>
           </View>
           <View style={styles.row}>
+            <Text style={styles.label}>학번</Text>
+            <Text style={styles.span}>{this.state.no}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>이메일</Text>
+            <Text style={styles.span}>{this.state.email}</Text>
+          </View>
+          {/* <View style={styles.row}>
             <Text style={styles.label}>학년</Text>
             <Text style={styles.span}>1학년</Text>
-          </View>
+          </View> */}
         </View>
       </View>
     );
